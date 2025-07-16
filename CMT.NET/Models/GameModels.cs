@@ -22,56 +22,109 @@ using System.IO;
 
 namespace CMT.NET.Models;
 
-public record FileInfo(
-    string Name,
-    string Version,
-    DateTime? CreationTime,
-    DateTime? ModifiedTime,
-    long Size,
-    string? Hash = null
-);
+public class FileInfo
+{
+    public string FilePath { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
+    public long FileSize { get; set; }
+    public DateTime CreationTime { get; set; }
+    public DateTime LastWriteTime { get; set; }
+    public uint Crc32 { get; set; }
+    public string? Version { get; set; }
+}
 
-public record ModInfo(
-    string Name,
-    string FilePath,
-    bool IsEnabled,
-    bool IsLight,
-    float Version,
-    string? Description = null
-);
+public class ModInfo
+{
+    public string FilePath { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
+    public long FileSize { get; set; }
+    public DateTime CreationTime { get; set; }
+    public DateTime LastWriteTime { get; set; }
+    public uint Crc32 { get; set; }
+    public ModuleType ModuleType { get; set; }
+    public uint? Flags { get; set; }
+    public uint FormId { get; set; }
+    public uint Version { get; set; }
+    public float? HeaderVersion { get; set; }
+    public uint? RecordCount { get; set; }
+    public uint? NextObjectId { get; set; }
+    public string? Author { get; set; }
+    public string? Description { get; set; }
+    public bool IsEnabled { get; set; }
+    public List<string> MasterFiles { get; set; } = new();
+}
 
-public record ArchiveInfo(
-    string Name,
-    string FilePath,
-    ArchiveVersion Version,
-    bool IsEnabled,
-    long Size,
-    DateTime? CreationTime = null
-);
+public class ArchiveInfo
+{
+    public string FilePath { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
+    public long FileSize { get; set; }
+    public DateTime CreationTime { get; set; }
+    public DateTime LastWriteTime { get; set; }
+    public uint Crc32 { get; set; }
+    public int? Version { get; set; }
+    public int FileCount { get; set; }
+    public string? ArchiveType { get; set; }
+    public string? Format { get; set; }
+}
 
-public record F4SEInfo(
-    string Name,
-    string FilePath,
-    string Version,
-    bool IsCompatible,
-    bool IsWhitelisted = false
-);
+public class F4SeInfo
+{
+    public string FilePath { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
+    public string Version { get; set; } = string.Empty;
+    public bool IsCompatible { get; set; }
+    public bool IsWhitelisted { get; set; }
+    public string? Description { get; set; }
+}
 
-public record ProblemInfo(
-    ProblemType Type,
-    string Description,
-    string FilePath,
-    SolutionType SolutionType,
-    string? SolutionDetails = null
-);
+public class Problem
+{
+    public ProblemType Type { get; set; }
+    public ProblemSeverity Severity { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public string Solution { get; set; } = string.Empty;
+    public string? FilePath { get; set; }
+    public string? Details { get; set; }
+}
+
+public class IniFile
+{
+    public string FilePath { get; set; } = string.Empty;
+    public Dictionary<string, Dictionary<string, string>> Sections { get; set; } = new();
+}
+
+public class GameAnalysisResult
+{
+    public DateTime AnalysisTimestamp { get; set; }
+    public GameInfo? GameInfo { get; set; }
+    public List<ModInfo> Modules { get; set; } = new();
+    public List<ArchiveInfo> Archives { get; set; } = new();
+    public List<F4SeInfo> F4SePlugins { get; set; } = new();
+    public List<Problem> Problems { get; set; } = new();
+    public Dictionary<string, string> GameConfiguration { get; set; } = new();
+    public SystemInfo? SystemInfo { get; set; }
+}
+
+public class SystemInfo
+{
+    public string OperatingSystem { get; set; } = string.Empty;
+    public bool Is64BitOperatingSystem { get; set; }
+    public int ProcessorCount { get; set; }
+    public string ProcessorName { get; set; } = string.Empty;
+    public long AvailableMemory { get; set; }
+    public string DotNetVersion { get; set; } = string.Empty;
+    public string RuntimeVersion { get; set; } = string.Empty;
+}
 
 public class GameInfo
 {
     public string Name { get; set; } = "Fallout4";
     public InstallType InstallType { get; set; } = InstallType.Unknown;
     public string? GamePath { get; set; }
+    public string? GameVersion { get; set; }
     public string? DataPath { get; set; }
-    public string? F4SEPath { get; set; }
+    public string? F4SePath { get; set; }
     public Language Language { get; set; } = Language.English;
 
     // Archive collections

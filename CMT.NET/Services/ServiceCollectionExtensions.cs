@@ -45,6 +45,15 @@ public static class ServiceCollectionExtensions
         services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
         services.AddSingleton<ISettingsService, SettingsService>();
 
+        // Core Services
+        services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<IGameDetectionService, GameDetectionService>();
+        services.AddSingleton<IFileOperationService, FileOperationService>();
+        services.AddSingleton<IIniFileService, IniFileService>();
+        services.AddSingleton<IModuleAnalysisService, ModuleAnalysisService>();
+        services.AddSingleton<IArchiveAnalysisService, ArchiveAnalysisService>();
+        services.AddSingleton<ICmCheckerService, CMCheckerService>();
+
         // Logging
         var loggerConfig = new LoggerConfiguration()
             .MinimumLevel.Information()
@@ -69,10 +78,10 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<IGameDetectionService, GameDetectionService>();
         services.AddSingleton<IFileOperationService, FileOperationService>();
-        services.AddSingleton<IArchiveService, ArchiveService>();
-        services.AddSingleton<IModuleService, ModuleService>();
-        services.AddSingleton<IF4SEService, F4SeService>();
-        services.AddSingleton<IScannerService, ScannerService>();
+        services.AddSingleton<IIniFileService, IniFileService>();
+        services.AddSingleton<IModuleAnalysisService, ModuleAnalysisService>();
+        services.AddSingleton<IArchiveAnalysisService, ArchiveAnalysisService>();
+        services.AddSingleton<ICmCheckerService, CMCheckerService>();
 
         // ViewModels
         services.AddTransient<MainWindowViewModel>();

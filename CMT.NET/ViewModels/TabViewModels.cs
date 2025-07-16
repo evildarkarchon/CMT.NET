@@ -57,15 +57,15 @@ public class OverviewViewModel : ViewModelBase
 
 public class F4SeViewModel : ViewModelBase
 {
-    private readonly IF4SEService _f4SeService;
+    private readonly ICmCheckerService _cmCheckerService;
 
-    public F4SeViewModel(IF4SEService f4SeService)
+    public F4SeViewModel(ICmCheckerService cmCheckerService)
     {
-        _f4SeService = f4SeService;
+        _cmCheckerService = cmCheckerService;
         RefreshCommand = ReactiveCommand.CreateFromTask(RefreshAsync);
     }
 
-    [Reactive] public F4SEInfo[] Plugins { get; set; } = Array.Empty<F4SEInfo>();
+    [Reactive] public F4SeInfo[] Plugins { get; set; } = Array.Empty<F4SeInfo>();
     [Reactive] public bool IsLoading { get; set; }
 
     public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
@@ -75,8 +75,8 @@ public class F4SeViewModel : ViewModelBase
         IsLoading = true;
         try
         {
-            // TODO: Get F4SE path from game detection
-            Plugins = await _f4SeService.ScanF4SEPluginsAsync("");
+            // TODO: Implement F4SE plugin scanning
+            Plugins = Array.Empty<F4SeInfo>();
         }
         finally
         {
@@ -87,15 +87,15 @@ public class F4SeViewModel : ViewModelBase
 
 public class ScannerViewModel : ViewModelBase
 {
-    private readonly IScannerService _scannerService;
+    private readonly ICmCheckerService _cmCheckerService;
 
-    public ScannerViewModel(IScannerService scannerService)
+    public ScannerViewModel(ICmCheckerService cmCheckerService)
     {
-        _scannerService = scannerService;
+        _cmCheckerService = cmCheckerService;
         ScanCommand = ReactiveCommand.CreateFromTask(ScanAsync);
     }
 
-    [Reactive] public ProblemInfo[] Problems { get; set; } = Array.Empty<ProblemInfo>();
+    [Reactive] public Problem[] Problems { get; set; } = Array.Empty<Problem>();
     [Reactive] public bool IsScanning { get; set; }
 
     public ReactiveCommand<Unit, Unit> ScanCommand { get; }
@@ -105,8 +105,8 @@ public class ScannerViewModel : ViewModelBase
         IsScanning = true;
         try
         {
-            // TODO: Get game info from detection service
-            Problems = await _scannerService.ScanForProblemsAsync(new GameInfo());
+            var problems = await _cmCheckerService.ScanForProblemsAsync();
+            Problems = problems.ToArray();
         }
         finally
         {

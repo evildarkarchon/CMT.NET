@@ -44,6 +44,21 @@ public enum InstallType
     NotFound
 }
 
+public enum ModuleType
+{
+    Master,
+    Plugin,
+    Light
+}
+
+public enum ProblemSeverity
+{
+    Info,
+    Warning,
+    Error,
+    Critical
+}
+
 public static class Magic
 {
     public static readonly byte[] BTDX = { 0x42, 0x54, 0x44, 0x58 }; // "BTDX"
@@ -73,6 +88,10 @@ public enum LogType
 
 public enum ArchiveVersion
 {
+    Unknown,
+    BA2_GNRL,
+    BA2_DX10,
+    BA2_GNMF,
     OG = 1,
     NG7 = 7,
     NG = 8
@@ -86,6 +105,13 @@ public enum ModuleFlag
 
 public enum ProblemType
 {
+    GamePath,
+    GameVersion,
+    DataDirectory,
+    Configuration,
+    ModuleLimit,
+    MissingMaster,
+    ArchiveVersion,
     JunkFile,
     UnexpectedFormat,
     MisplacedDLL,

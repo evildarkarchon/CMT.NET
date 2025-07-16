@@ -17,6 +17,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CMT.NET.Models;
 using CMT.NET.ViewModels;
@@ -49,40 +50,50 @@ public interface IGameDetectionService
 
 public interface IFileOperationService
 {
-    Task<string> CalculateCrc32Async(string filePath);
-    Task<bool> ValidateFileIntegrityAsync(string filePath, string expectedHash);
-    Task<Models.FileInfo> GetFileInfoAsync(string filePath);
-    Task<byte[]> ReadFileHeaderAsync(string filePath, int length);
+    Task<uint> CalculateCrc32Async(string filePath);
+    Task<bool> ValidateFileIntegrityAsync(string filePath, uint expectedCrc32);
+    Task<FileInfo?> GetFileInfoAsync(string filePath);
+    Task<string?> GetFileVersionAsync(string filePath);
+    bool IsValidGameDirectory(string path);
+    Task<bool> BackupFileAsync(string sourceFilePath, string backupDirectory);
 }
 
-public interface IArchiveService
+public interface IIniFileService
 {
-    Task<ArchiveInfo[]> ScanArchivesAsync(string dataPath);
-    Task<ArchiveVersion> GetArchiveVersionAsync(string archivePath);
-    Task<bool> ValidateArchiveAsync(string archivePath);
-    Task ConvertArchiveAsync(string archivePath, ArchiveVersion targetVersion);
+    Task<IniFile?> ReadIniFileAsync(string filePath);
+    Task<bool> WriteIniFileAsync(string filePath, IniFile iniFile);
+    string? GetValue(IniFile iniFile, string section, string key, string? defaultValue = null);
+    bool SetValue(IniFile iniFile, string section, string key, string value);
+    bool HasSection(IniFile iniFile, string section);
+    bool HasKey(IniFile iniFile, string section, string key);
+    string[] GetSections(IniFile iniFile);
+    string[] GetKeys(IniFile iniFile, string section);
+    Task<Dictionary<string, string>> GetFallout4PreferencesAsync(string gamePath);
 }
 
-public interface IModuleService
+public interface IModuleAnalysisService
 {
-    Task<ModInfo[]> ScanModulesAsync(string dataPath);
-    Task<float> GetModuleVersionAsync(string modulePath);
-    Task<bool> ValidateModuleAsync(string modulePath);
-    Task<bool> IsModuleEnabledAsync(string modulePath);
+    Task<ModInfo?> AnalyzeModuleAsync(string filePath);
+    Task<List<ModInfo>> AnalyzeModulesInDirectoryAsync(string directoryPath);
+    Task<bool> IsValidModuleAsync(string filePath);
+    Task<List<string>> GetMasterFilesAsync(ModInfo modInfo);
+    bool IsLightModule(ModInfo modInfo);
+    bool IsMasterModule(ModInfo modInfo);
 }
 
-public interface IF4SEService
+public interface IArchiveAnalysisService
 {
-    Task<F4SEInfo[]> ScanF4SEPluginsAsync(string f4sePath);
-    Task<bool> ValidateF4SECompatibilityAsync(string pluginPath);
-    Task<string> GetF4SEVersionAsync(string f4sePath);
-    Task<bool> IsPluginWhitelistedAsync(string pluginPath);
+    Task<ArchiveInfo?> AnalyzeArchiveAsync(string filePath);
+    Task<List<ArchiveInfo>> AnalyzeArchivesInDirectoryAsync(string directoryPath);
+    Task<bool> IsValidArchiveAsync(string filePath);
+    ArchiveVersion GetArchiveVersion(ArchiveInfo archiveInfo);
 }
 
-public interface IScannerService
+public interface ICmCheckerService
 {
-    Task<ProblemInfo[]> ScanForProblemsAsync(GameInfo gameInfo);
-    Task<ProblemInfo[]> ScanSpecificPathAsync(string path);
-    Task<bool> CanFixProblemAsync(ProblemInfo problem);
-    Task<bool> FixProblemAsync(ProblemInfo problem);
+    GameAnalysisResult? LastAnalysisResult { get; }
+    bool IsAnalyzing { get; }
+    Task<GameAnalysisResult> AnalyzeGameInstallationAsync(string? gamePath = null);
+    Task<List<Problem>> ScanForProblemsAsync();
+    Task<SystemInfo> GetSystemInfoAsync();
 }

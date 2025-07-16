@@ -27,24 +27,24 @@ Port the Collective Modding Toolkit from Python/Tkinter to C# with Avalonia MVVM
 - [x] Implement configuration models
 - [x] Define problem/issue reporting models
 
-## Phase 2: Core Services & Business Logic
+## Phase 2: Core Services & Business Logic ✓
 ### 2.1 Game Detection & Analysis
-- [ ] Port CMChecker core functionality
-- [ ] Implement registry reading for game paths
-- [ ] Create INI file parser service
-- [ ] Implement module (plugin) analysis service
-- [ ] Create archive (BA2) analysis service
+- [x] Port CMChecker core functionality
+- [x] Implement registry reading for game paths
+- [x] Create INI file parser service
+- [x] Implement module (plugin) analysis service
+- [x] Create archive (BA2) analysis service
 
 ### 2.2 File Operations
-- [ ] Implement CRC32 calculation utilities
-- [ ] Create file system abstraction layer
-- [ ] Port archive header reading logic
-- [ ] Implement module version detection
+- [x] Implement CRC32 calculation utilities
+- [x] Create file system abstraction layer
+- [x] Port archive header reading logic
+- [x] Implement module version detection
 
 ### 2.3 Configuration Management
-- [ ] Create settings service with JSON serialization
-- [ ] Implement user preferences storage
-- [ ] Add MO2/Vortex detection logic
+- [x] Create settings service with JSON serialization
+- [x] Implement user preferences storage
+- [x] Add MO2/Vortex detection logic (basic structure)
 
 ## Phase 3: UI Foundation
 ### 3.1 Main Window & Navigation
