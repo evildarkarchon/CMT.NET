@@ -110,6 +110,7 @@ public enum ProblemType
     DataDirectory,
     Configuration,
     ModuleLimit,
+    ArchiveLimit,
     MissingMaster,
     ArchiveVersion,
     JunkFile,

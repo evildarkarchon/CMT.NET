@@ -105,6 +105,22 @@ public class Problem
     };
 }
 
+public class ProblemGroup
+{
+    public ProblemType Type { get; set; }
+    public Problem[] Problems { get; set; } = Array.Empty<Problem>();
+    public int Count { get; set; }
+    public int ErrorCount { get; set; }
+    public int WarningCount { get; set; }
+    public int InfoCount { get; set; }
+
+    // UI Helper Properties
+    public string TypeName => Type.ToString();
+    public string CountText => $"{Count} issue{(Count == 1 ? "" : "s")}";
+    public bool HasErrors => ErrorCount > 0;
+    public bool HasWarnings => WarningCount > 0;
+}
+
 public class IniFile
 {
     public string FilePath { get; set; } = string.Empty;

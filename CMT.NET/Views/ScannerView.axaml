@@ -54,6 +54,14 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
             <TextBlock Text="Mod Configuration Scanner" Classes="Title" Margin="0,0,20,0"/>
             <Button Content="Scan" Command="{Binding ScanCommand}" IsEnabled="{Binding !IsScanning}"/>
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0" IsVisible="{Binding HasProblems}">
+                <TextBlock Text="{Binding ErrorCount, StringFormat='Errors: {0}'}" 
+                           Classes="Bad" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding WarningCount, StringFormat='Warnings: {0}'}" 
+                           Classes="Warning" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding InfoCount, StringFormat='Info: {0}'}" 
+                           Margin="0,0,10,0"/>
+            </StackPanel>
         </StackPanel>
         
         <!-- Main Content -->
@@ -74,6 +82,7 @@
                         <TextBlock Text="No problems detected. Click 'Scan' to analyze your mod configuration." 
                                    HorizontalAlignment="Center" 
                                    Margin="0,20"
+                                   Classes="Good"
                                    IsVisible="{Binding !HasProblems}"/>
                         
                         <!-- Problems List -->
@@ -82,12 +91,24 @@
                                 <DataTemplate DataType="{x:Type models:Problem}">
                                     <Border Background="#3C3C3C" Padding="10" Margin="0,0,0,5" CornerRadius="3">
                                         <StackPanel>
-                                            <TextBlock Text="{Binding Type}" 
-                                                       Foreground="Red" 
-                                                       FontWeight="Bold"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}" 
+                                                           FontWeight="Bold" 
+                                                           Margin="0,0,10,0"/>
+                                                <TextBlock Text="{Binding Severity}" 
+                                                           Classes="Warning"
+                                                           FontSize="10"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding Title}" 
+                                                       FontWeight="Bold" 
+                                                       Margin="0,5,0,0"/>
                                             <TextBlock Text="{Binding Description}" 
                                                        Margin="0,5,0,0" 
                                                        TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding FilePath}" 
+                                                       Foreground="#999" 
+                                                       FontSize="10" 
+                                                       Margin="0,5,0,0"/>
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>
@@ -103,7 +124,30 @@
                     <StackPanel>
                         <TextBlock Text="Problem Details" Classes="Title" Margin="0,0,0,10"/>
                         
-                        <!-- Selected problem details would go here -->
+                        <!-- Selected problem details -->
+                        <StackPanel IsVisible="{Binding HasSelectedProblem}">
+                            <TextBlock Text="{Binding SelectedProblem.Title}" 
+                                       FontWeight="Bold" 
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding SelectedProblem.Type, StringFormat='Type: {0}'}" 
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding SelectedProblem.Severity, StringFormat='Severity: {0}'}" 
+                                       Classes="Warning"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding SelectedProblem.Description}" 
+                                       TextWrapping="Wrap" 
+                                       Margin="0,10,0,0"/>
+                            <TextBlock Text="{Binding SelectedProblem.Solution}" 
+                                       TextWrapping="Wrap" 
+                                       Margin="0,10,0,0"/>
+                            <TextBlock Text="{Binding SelectedProblem.FilePath}" 
+                                       Foreground="#999" 
+                                       FontSize="10" 
+                                       Margin="0,10,0,0"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                        
+                        <!-- No selection message -->
                         <TextBlock Text="Select a problem from the list to view details." 
                                    HorizontalAlignment="Center" 
                                    Margin="0,20"
@@ -112,10 +156,13 @@
                 </ScrollViewer>
             </Border>
             
-            <!-- Loading Indicator -->
+            <!-- Loading/Progress Indicator -->
             <StackPanel Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding IsScanning}">
-                <TextBlock Text="Scanning mod configuration..." Classes="Title" HorizontalAlignment="Center"/>
-                <ProgressBar IsIndeterminate="True" Width="200" Height="20" Margin="0,10,0,0"/>
+                <TextBlock Text="{Binding ScanProgress}" Classes="Title" HorizontalAlignment="Center"/>
+                <ProgressBar Value="{Binding ScanPercentage}" Maximum="100" Width="300" Height="20" Margin="0,10,0,0"/>
+                <TextBlock Text="{Binding ScanPercentage, StringFormat={}{0}%}" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,5,0,0"/>
             </StackPanel>
         </Grid>
     </Grid>
