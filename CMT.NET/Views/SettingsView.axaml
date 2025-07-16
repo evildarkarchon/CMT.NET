@@ -1,0 +1,184 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CMT.NET.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="760" d:DesignHeight="400"
+             x:Class="CMT.NET.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+
+    <Design.DataContext>
+        <vm:SettingsViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#CACACA"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Title">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Label">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+        
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        
+        <Style Selector="TextBox">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+        
+        <Style Selector="CheckBox">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+        
+        <Style Selector="ComboBox">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="#1E1E1E" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Settings" Classes="Title" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+        
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Left Column -->
+                <StackPanel Grid.Column="0">
+                    <!-- Game Settings -->
+                    <Border Background="#2D2D30" Padding="15" Margin="0,0,0,15" CornerRadius="5">
+                        <StackPanel>
+                            <TextBlock Text="Game Settings" Classes="Title" Margin="0,0,0,15"/>
+                            
+                            <TextBlock Text="Game Path:" Classes="Label"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Text="{Binding Settings.GamePath}" IsReadOnly="True"/>
+                                <Button Grid.Column="1" Content="Browse..." Margin="5,0,0,10"/>
+                            </Grid>
+                            
+                            <TextBlock Text="Mod Manager:" Classes="Label"/>
+                            <ComboBox SelectedItem="{Binding Settings.ModManager}">
+                                <ComboBoxItem Content="Auto-Detect"/>
+                                <ComboBoxItem Content="Mod Organizer 2"/>
+                                <ComboBoxItem Content="Vortex"/>
+                                <ComboBoxItem Content="None"/>
+                            </ComboBox>
+                            
+                            <TextBlock Text="Mod Manager Path:" Classes="Label"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Text="{Binding Settings.ModManagerPath}"/>
+                                <Button Grid.Column="1" Content="Browse..." Margin="5,0,0,10"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Scanning Settings -->
+                    <Border Background="#2D2D30" Padding="15" Margin="0,0,0,15" CornerRadius="5">
+                        <StackPanel>
+                            <TextBlock Text="Scanning Settings" Classes="Title" Margin="0,0,0,15"/>
+                            
+                            <CheckBox Content="Enable deep scan" IsChecked="{Binding Settings.EnableDeepScan}"/>
+                            <CheckBox Content="Scan for missing masters" IsChecked="{Binding Settings.ScanMissingMasters}"/>
+                            <CheckBox Content="Check mod conflicts" IsChecked="{Binding Settings.CheckConflicts}"/>
+                            <CheckBox Content="Validate F4SE plugins" IsChecked="{Binding Settings.ValidateF4SEPlugins}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                
+                <!-- Right Column -->
+                <StackPanel Grid.Column="2">
+                    <!-- Application Settings -->
+                    <Border Background="#2D2D30" Padding="15" Margin="0,0,0,15" CornerRadius="5">
+                        <StackPanel>
+                            <TextBlock Text="Application Settings" Classes="Title" Margin="0,0,0,15"/>
+                            
+                            <TextBlock Text="Log Level:" Classes="Label"/>
+                            <ComboBox SelectedItem="{Binding Settings.LogLevel}">
+                                <ComboBoxItem Content="Debug"/>
+                                <ComboBoxItem Content="Info"/>
+                                <ComboBoxItem Content="Warning"/>
+                                <ComboBoxItem Content="Error"/>
+                            </ComboBox>
+                            
+                            <CheckBox Content="Check for updates on startup" IsChecked="{Binding Settings.CheckUpdates}"/>
+                            <CheckBox Content="Remember window position" IsChecked="{Binding Settings.RememberWindowPosition}"/>
+                            <CheckBox Content="Minimize to system tray" IsChecked="{Binding Settings.MinimizeToTray}"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Tool Paths -->
+                    <Border Background="#2D2D30" Padding="15" Margin="0,0,0,15" CornerRadius="5">
+                        <StackPanel>
+                            <TextBlock Text="Tool Paths" Classes="Title" Margin="0,0,0,15"/>
+                            
+                            <TextBlock Text="xEdit Path:" Classes="Label"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Text="{Binding Settings.XEditPath}"/>
+                                <Button Grid.Column="1" Content="Browse..." Margin="5,0,0,10"/>
+                            </Grid>
+                            
+                            <TextBlock Text="BSArch Path:" Classes="Label"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Text="{Binding Settings.BSArchPath}"/>
+                                <Button Grid.Column="1" Content="Browse..." Margin="5,0,0,10"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+        
+        <!-- Footer Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Save Settings" Command="{Binding SaveCommand}"/>
+            <Button Content="Reset to Defaults" Command="{Binding ResetCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

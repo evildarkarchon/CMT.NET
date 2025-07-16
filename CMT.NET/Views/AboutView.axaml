@@ -1,0 +1,114 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CMT.NET.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="760" d:DesignHeight="400"
+             x:Class="CMT.NET.Views.AboutView"
+             x:DataType="vm:AboutViewModel">
+
+    <Design.DataContext>
+        <vm:AboutViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#CACACA"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Title">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Subtitle">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="#1E1E1E" Margin="10">
+        <ScrollViewer>
+            <StackPanel HorizontalAlignment="Center" MaxWidth="600">
+                <!-- Header -->
+                <TextBlock Text="CMT.NET" Classes="Title" HorizontalAlignment="Center" Margin="0,20,0,10"/>
+                <TextBlock Text="Collective Modding Toolkit" Classes="Subtitle" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                <TextBlock Text="{Binding Version, StringFormat='Version {0}'}" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                
+                <!-- Description -->
+                <Border Background="#2D2D30" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="About" Classes="Subtitle" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                        <TextBlock Text="This C# port of the Collective Modding Toolkit brings modern MVVM architecture and improved performance to Fallout 4 mod management and troubleshooting." 
+                                   TextWrapping="Wrap" Margin="0,0,0,10"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Features -->
+                <Border Background="#2D2D30" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Features" Classes="Subtitle" Margin="0,0,0,10"/>
+                        <StackPanel>
+                            <TextBlock Text="• Game version detection and compatibility checking" Margin="0,2"/>
+                            <TextBlock Text="• F4SE plugin analysis and validation" Margin="0,2"/>
+                            <TextBlock Text="• Comprehensive mod configuration scanning" Margin="0,2"/>
+                            <TextBlock Text="• Archive (BA2) format analysis" Margin="0,2"/>
+                            <TextBlock Text="• Game downgrading and patching tools" Margin="0,2"/>
+                            <TextBlock Text="• Mod manager integration (MO2, Vortex)" Margin="0,2"/>
+                            <TextBlock Text="• Cross-platform support with Avalonia UI" Margin="0,2"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Links -->
+                <Border Background="#2D2D30" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Links" Classes="Subtitle" Margin="0,0,0,10"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="GitHub" ToolTip.Tip="Visit the project on GitHub"/>
+                            <Button Content="Nexus Mods" ToolTip.Tip="Download from Nexus Mods"/>
+                            <Button Content="Discord" ToolTip.Tip="Join our Discord community"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Legal -->
+                <Border Background="#2D2D30" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Legal" Classes="Subtitle" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding Copyright}" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                        <TextBlock Text="Licensed under the GNU General Public License v2.0" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                        <TextBlock Text="This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation." 
+                                   TextWrapping="Wrap" FontSize="10" Margin="0,0,0,5"/>
+                        <TextBlock Text="This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE." 
+                                   TextWrapping="Wrap" FontSize="10"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Technologies -->
+                <Border Background="#2D2D30" Padding="20" Margin="0,0,0,20" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Built With" Classes="Subtitle" Margin="0,0,0,10"/>
+                        <StackPanel>
+                            <TextBlock Text="• Avalonia UI 11.3.2 - Cross-platform UI framework" Margin="0,2"/>
+                            <TextBlock Text="• ReactiveUI - MVVM framework for .NET" Margin="0,2"/>
+                            <TextBlock Text="• .NET 8.0 - Modern .NET runtime" Margin="0,2"/>
+                            <TextBlock Text="• Serilog - Structured logging library" Margin="0,2"/>
+                            <TextBlock Text="• Microsoft.Extensions.DependencyInjection - Service container" Margin="0,2"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

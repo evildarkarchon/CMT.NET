@@ -1,0 +1,97 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CMT.NET.ViewModels"
+             xmlns:models="using:CMT.NET.Models"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="760" d:DesignHeight="400"
+             x:Class="CMT.NET.Views.F4SeView"
+             x:DataType="vm:F4SeViewModel">
+
+    <Design.DataContext>
+        <vm:F4SeViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#CACACA"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Title">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Good">
+            <Setter Property="Foreground" Value="Green"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Bad">
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+        
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="#1E1E1E" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+            <TextBlock Text="F4SE Plugin Analysis" Classes="Title" Margin="0,0,20,0"/>
+            <Button Content="Refresh" Command="{Binding RefreshCommand}" IsEnabled="{Binding !IsLoading}"/>
+        </StackPanel>
+        
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <!-- Plugin List -->
+            <Border Background="#2D2D30" Padding="10" CornerRadius="5" IsVisible="{Binding !IsLoading}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="F4SE Plugins" Classes="Title" Margin="0,0,0,10"/>
+                        
+                        <!-- No plugins message -->
+                        <TextBlock Text="No F4SE plugins found." 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,20"
+                                   IsVisible="{Binding !HasPlugins}"/>
+                        
+                        <!-- Plugin List -->
+                        <ItemsControl ItemsSource="{Binding Plugins}" IsVisible="{Binding HasPlugins}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:F4SeInfo}">
+                                    <Border Background="#3C3C3C" Padding="10" Margin="0,0,0,5" CornerRadius="3">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}" Margin="0,0,10,0"/>
+                                            <TextBlock Text="{Binding Version}" 
+                                                       Foreground="Green" 
+                                                       Margin="0,0,10,0"/>
+                                            <TextBlock Text="{Binding Status}" 
+                                                       Foreground="Green"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            
+            <!-- Loading Indicator -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding IsLoading}">
+                <TextBlock Text="Scanning F4SE plugins..." Classes="Title" HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" Width="200" Height="20" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

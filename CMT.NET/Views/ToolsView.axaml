@@ -1,0 +1,108 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CMT.NET.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="760" d:DesignHeight="400"
+             x:Class="CMT.NET.Views.ToolsView"
+             x:DataType="vm:ToolsViewModel">
+
+    <Design.DataContext>
+        <vm:ToolsViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#CACACA"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Title">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="#1E1E1E" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Tools" Classes="Title" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+        
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Left Column -->
+            <StackPanel Grid.Column="0">
+                <!-- Downgrader Tool -->
+                <Border Background="#2D2D30" Padding="15" Margin="0,0,0,15" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Game Downgrader" Classes="Title" Margin="0,0,0,10"/>
+                        <TextBlock Text="Downgrade your Fallout 4 installation to work with older mods and F4SE plugins." 
+                                   TextWrapping="Wrap" Margin="0,0,0,10"/>
+                        <Button Content="Launch Downgrader" HorizontalAlignment="Center" 
+                                ToolTip.Tip="Open the game downgrader tool"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Archive Patcher Tool -->
+                <Border Background="#2D2D30" Padding="15" Margin="0,0,0,15" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Archive Patcher" Classes="Title" Margin="0,0,0,10"/>
+                        <TextBlock Text="Convert BA2 archives between different versions for compatibility." 
+                                   TextWrapping="Wrap" Margin="0,0,0,10"/>
+                        <Button Content="Launch Archive Patcher" HorizontalAlignment="Center"
+                                ToolTip.Tip="Open the archive patcher tool"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            
+            <!-- Right Column -->
+            <StackPanel Grid.Column="2">
+                <!-- External Tools -->
+                <Border Background="#2D2D30" Padding="15" Margin="0,0,0,15" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="External Tools" Classes="Title" Margin="0,0,0,10"/>
+                        <TextBlock Text="Quick access to commonly used modding tools." 
+                                   TextWrapping="Wrap" Margin="0,0,0,10"/>
+                        <Button Content="Launch xEdit" HorizontalAlignment="Center" Margin="0,0,0,5"
+                                ToolTip.Tip="Open xEdit/FO4Edit"/>
+                        <Button Content="Launch BSArch" HorizontalAlignment="Center" Margin="0,0,0,5"
+                                ToolTip.Tip="Open BSArch archive manager"/>
+                        <Button Content="Launch Complex Sorter" HorizontalAlignment="Center"
+                                ToolTip.Tip="Open Complex Sorter"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Utilities -->
+                <Border Background="#2D2D30" Padding="15" Margin="0,0,0,15" CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Utilities" Classes="Title" Margin="0,0,0,10"/>
+                        <TextBlock Text="Additional utilities for mod management." 
+                                   TextWrapping="Wrap" Margin="0,0,0,10"/>
+                        <Button Content="Open Logs Folder" HorizontalAlignment="Center" Margin="0,0,0,5"
+                                ToolTip.Tip="Open the application logs folder"/>
+                        <Button Content="Clear Cache" HorizontalAlignment="Center"
+                                ToolTip.Tip="Clear application cache"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

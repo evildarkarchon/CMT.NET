@@ -1,0 +1,122 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CMT.NET.ViewModels"
+             xmlns:models="using:CMT.NET.Models"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="760" d:DesignHeight="400"
+             x:Class="CMT.NET.Views.ScannerView"
+             x:DataType="vm:ScannerViewModel">
+
+    <Design.DataContext>
+        <vm:ScannerViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#CACACA"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Title">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Good">
+            <Setter Property="Foreground" Value="Green"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Bad">
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+        
+        <Style Selector="TextBlock.Warning">
+            <Setter Property="Foreground" Value="Orange"/>
+        </Style>
+        
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="#1E1E1E" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+            <TextBlock Text="Mod Configuration Scanner" Classes="Title" Margin="0,0,20,0"/>
+            <Button Content="Scan" Command="{Binding ScanCommand}" IsEnabled="{Binding !IsScanning}"/>
+        </StackPanel>
+        
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Problems List -->
+            <Border Grid.Column="0" Background="#2D2D30" Padding="10" CornerRadius="5" IsVisible="{Binding !IsScanning}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="Detected Problems" Classes="Title" Margin="0,0,0,10"/>
+                        
+                        <!-- No problems message -->
+                        <TextBlock Text="No problems detected. Click 'Scan' to analyze your mod configuration." 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,20"
+                                   IsVisible="{Binding !HasProblems}"/>
+                        
+                        <!-- Problems List -->
+                        <ItemsControl ItemsSource="{Binding Problems}" IsVisible="{Binding HasProblems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:Problem}">
+                                    <Border Background="#3C3C3C" Padding="10" Margin="0,0,0,5" CornerRadius="3">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Type}" 
+                                                       Foreground="Red" 
+                                                       FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Description}" 
+                                                       Margin="0,5,0,0" 
+                                                       TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            
+            <!-- Problem Details -->
+            <Border Grid.Column="2" Background="#2D2D30" Padding="10" CornerRadius="5" IsVisible="{Binding !IsScanning}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="Problem Details" Classes="Title" Margin="0,0,0,10"/>
+                        
+                        <!-- Selected problem details would go here -->
+                        <TextBlock Text="Select a problem from the list to view details." 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,20"
+                                   IsVisible="{Binding !HasSelectedProblem}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            
+            <!-- Loading Indicator -->
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding IsScanning}">
+                <TextBlock Text="Scanning mod configuration..." Classes="Title" HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" Width="200" Height="20" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

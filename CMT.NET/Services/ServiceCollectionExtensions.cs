@@ -45,15 +45,6 @@ public static class ServiceCollectionExtensions
         services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
         services.AddSingleton<ISettingsService, SettingsService>();
 
-        // Core Services
-        services.AddSingleton<INavigationService, NavigationService>();
-        services.AddSingleton<IGameDetectionService, GameDetectionService>();
-        services.AddSingleton<IFileOperationService, FileOperationService>();
-        services.AddSingleton<IIniFileService, IniFileService>();
-        services.AddSingleton<IModuleAnalysisService, ModuleAnalysisService>();
-        services.AddSingleton<IArchiveAnalysisService, ArchiveAnalysisService>();
-        services.AddSingleton<ICmCheckerService, CMCheckerService>();
-
         // Logging
         var loggerConfig = new LoggerConfiguration()
             .MinimumLevel.Information()

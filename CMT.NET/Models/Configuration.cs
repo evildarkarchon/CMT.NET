@@ -29,6 +29,21 @@ public class AppSettings
     public WindowSettings Window { get; set; } = new();
     public Dictionary<string, string> Paths { get; set; } = new();
     public Dictionary<string, bool> Features { get; set; } = new();
+
+    // UI Properties
+    public string? GamePath { get; set; }
+    public string ModManager { get; set; } = "Auto-Detect";
+    public string? ModManagerPath { get; set; }
+    public bool EnableDeepScan { get; set; } = false;
+    public bool ScanMissingMasters { get; set; } = true;
+    public bool CheckConflicts { get; set; } = true;
+    public bool ValidateF4SEPlugins { get; set; } = true;
+    public string LogLevel { get; set; } = "Info";
+    public bool CheckUpdates { get; set; } = true;
+    public bool RememberWindowPosition { get; set; } = true;
+    public bool MinimizeToTray { get; set; } = false;
+    public string? XEditPath { get; set; }
+    public string? BSArchPath { get; set; }
 }
 
 public class LoggingSettings

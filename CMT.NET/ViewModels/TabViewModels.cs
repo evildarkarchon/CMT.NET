@@ -34,23 +34,98 @@ public class OverviewViewModel : ViewModelBase
     {
         _gameDetectionService = gameDetectionService;
         RefreshCommand = ReactiveCommand.CreateFromTask(RefreshAsync);
+
+        // Initialize with empty game info
+        GameInfo = new GameInfo();
     }
 
-    [Reactive] public GameInfo? GameInfo { get; set; }
+    [Reactive] public GameInfo GameInfo { get; set; }
     [Reactive] public bool IsLoading { get; set; }
+    [Reactive] public string[] Problems { get; set; } = Array.Empty<string>();
 
     public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
+
+    // UI Helper Properties
+    public bool HasProblems => Problems.Length > 0;
+    public int FullModuleCount => GameInfo.ModuleCountFull;
+    public int LightModuleCount => GameInfo.ModuleCountLight;
+    public int TotalModuleCount => GameInfo.ModuleCountFull + GameInfo.ModuleCountLight;
+    public int GeneralArchiveCount => GameInfo.Ba2CountGnrl;
+    public int TextureArchiveCount => GameInfo.Ba2CountDx10;
+    public int TotalArchiveCount => GameInfo.Ba2CountGnrl + GameInfo.Ba2CountDx10;
+
+    // Color properties for UI styling
+    public string InstallTypeColor => GameInfo.InstallType switch
+    {
+        InstallType.OG => "Good",
+        InstallType.DG => "Good",
+        InstallType.NG => "Good",
+        InstallType.Unknown => "Warning",
+        InstallType.NotFound => "Bad",
+        _ => "Warning"
+    };
+
+    public string FullModuleCountColor => GameInfo.ModuleCountFull switch
+    {
+        < 200 => "Good",
+        < 240 => "Warning",
+        _ => "Bad"
+    };
+
+    public string LightModuleCountColor => GameInfo.ModuleCountLight switch
+    {
+        < 3000 => "Good",
+        < 3800 => "Warning",
+        _ => "Bad"
+    };
+
+    public string GeneralArchiveCountColor => GameInfo.Ba2CountGnrl switch
+    {
+        < 200 => "Good",
+        < 240 => "Warning",
+        _ => "Bad"
+    };
+
+    public string TextureArchiveCountColor => GameInfo.Ba2CountDx10 switch
+    {
+        < 200 => "Good",
+        < 240 => "Warning",
+        _ => "Bad"
+    };
 
     private async Task RefreshAsync()
     {
         IsLoading = true;
         try
         {
-            GameInfo = await _gameDetectionService.DetectGameAsync();
+            var detectedGame = await _gameDetectionService.DetectGameAsync();
+            if (detectedGame != null)
+            {
+                GameInfo = detectedGame;
+                // TODO: Get problems from scanner service
+                Problems = Array.Empty<string>();
+            }
+        }
+        catch (Exception ex)
+        {
+            Problems = new[] { $"Error detecting game: {ex.Message}" };
         }
         finally
         {
             IsLoading = false;
+            // Trigger property change notifications for computed properties
+            this.RaisePropertyChanged(nameof(HasProblems));
+            this.RaisePropertyChanged(nameof(FullModuleCount));
+            this.RaisePropertyChanged(nameof(LightModuleCount));
+            this.RaisePropertyChanged(nameof(TotalModuleCount));
+            this.RaisePropertyChanged(nameof(GeneralArchiveCount));
+            this.RaisePropertyChanged(nameof(TextureArchiveCount));
+            this.RaisePropertyChanged(nameof(TotalArchiveCount));
+            this.RaisePropertyChanged(nameof(InstallTypeColor));
+            this.RaisePropertyChanged(nameof(FullModuleCountColor));
+            this.RaisePropertyChanged(nameof(LightModuleCountColor));
+            this.RaisePropertyChanged(nameof(GeneralArchiveCountColor));
+            this.RaisePropertyChanged(nameof(TextureArchiveCountColor));
         }
     }
 }
@@ -70,17 +145,22 @@ public class F4SeViewModel : ViewModelBase
 
     public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
 
+    // UI Helper Properties
+    public bool HasPlugins => Plugins.Length > 0;
+
     private async Task RefreshAsync()
     {
         IsLoading = true;
         try
         {
             // TODO: Implement F4SE plugin scanning
+            await Task.Delay(1000); // Simulate async operation
             Plugins = Array.Empty<F4SeInfo>();
         }
         finally
         {
             IsLoading = false;
+            this.RaisePropertyChanged(nameof(HasPlugins));
         }
     }
 }
@@ -97,8 +177,13 @@ public class ScannerViewModel : ViewModelBase
 
     [Reactive] public Problem[] Problems { get; set; } = Array.Empty<Problem>();
     [Reactive] public bool IsScanning { get; set; }
+    [Reactive] public Problem? SelectedProblem { get; set; }
 
     public ReactiveCommand<Unit, Unit> ScanCommand { get; }
+
+    // UI Helper Properties
+    public bool HasProblems => Problems.Length > 0;
+    public bool HasSelectedProblem => SelectedProblem != null;
 
     private async Task ScanAsync()
     {
@@ -108,9 +193,23 @@ public class ScannerViewModel : ViewModelBase
             var problems = await _cmCheckerService.ScanForProblemsAsync();
             Problems = problems.ToArray();
         }
+        catch (Exception ex)
+        {
+            Problems = new[]
+            {
+                new Problem
+                {
+                    Type = ProblemType.Configuration,
+                    Severity = ProblemSeverity.Error,
+                    Description = $"Error during scan: {ex.Message}"
+                }
+            };
+        }
         finally
         {
             IsScanning = false;
+            this.RaisePropertyChanged(nameof(HasProblems));
+            this.RaisePropertyChanged(nameof(HasSelectedProblem));
         }
     }
 }

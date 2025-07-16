@@ -72,20 +72,37 @@ public class F4SeInfo
 {
     public string FilePath { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     public string Version { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
     public bool IsCompatible { get; set; }
     public bool IsWhitelisted { get; set; }
     public string? Description { get; set; }
+    public List<F4SeInfo> Children { get; set; } = new();
+
+    // UI Helper Properties
+    public string VersionColor => IsCompatible ? "Good" : "Bad";
+    public string StatusColor => IsCompatible ? "Good" : "Bad";
 }
 
 public class Problem
 {
     public ProblemType Type { get; set; }
     public ProblemSeverity Severity { get; set; }
+    public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Solution { get; set; } = string.Empty;
     public string? FilePath { get; set; }
     public string? Details { get; set; }
+
+    // UI Helper Properties
+    public string SeverityColor => Severity switch
+    {
+        ProblemSeverity.Info => "Info",
+        ProblemSeverity.Warning => "Warning",
+        ProblemSeverity.Error => "Bad",
+        _ => "Info"
+    };
 }
 
 public class IniFile
@@ -159,6 +176,13 @@ public class GameInfo
     public string? AddressLibrary { get; set; }
     public bool CkFixesFound { get; set; }
     public string[] Ba2Suffixes { get; set; } = Array.Empty<string>();
+
+    // UI Properties for display
+    public string Version => GameVersion ?? "Unknown";
+    public string OperatingSystem => Environment.OSVersion.ToString();
+    public string Memory => $"{GC.GetTotalMemory(false) / (1024 * 1024 * 1024)}";
+    public string Processor => Environment.ProcessorCount.ToString();
+    public string GraphicsCard => "Unknown"; // TODO: Get actual graphics card info
 
     // Helper methods
     public bool IsFoOg() => InstallType is InstallType.OG or InstallType.DG;
