@@ -7,25 +7,25 @@ Port the Collective Modding Toolkit from Python/Tkinter to C# with Avalonia MVVM
 
 ## Phase 1: Foundation & Architecture ✓
 ### 1.1 Project Structure Setup
-- [ ] Configure CMT.NET.csproj with required dependencies
-  - [ ] Add Delta compression library (xdelta3.net)
-  - [ ] Add CRC32 calculation (System.IO.Hashing)
-  - [ ] Add HTTP client libraries
-  - [ ] Add Windows registry access
-  - [ ] Add process management libraries
+- [x] Configure CMT.NET.csproj with required dependencies
+  - [x] Add Delta compression library (xdelta3.net)
+  - [x] Add CRC32 calculation (System.IO.Hashing)
+  - [x] Add HTTP client libraries
+  - [x] Add Windows registry access
+  - [x] Add process management libraries
   
 ### 1.2 Core Architecture
-- [ ] Implement dependency injection container
-- [ ] Set up logging infrastructure (Serilog recommended)
-- [ ] Create base ViewModelBase with ReactiveUI
-- [ ] Implement navigation service for tab switching
-- [ ] Create application settings service
+- [x] Implement dependency injection container
+- [x] Set up logging infrastructure (Serilog recommended)
+- [x] Create base ViewModelBase with ReactiveUI
+- [x] Implement navigation service for tab switching
+- [x] Create application settings service
 
 ### 1.3 Data Models
-- [ ] Port enums (InstallType, ArchiveVersion, LogType, etc.)
-- [ ] Create game info models (ModInfo, ArchiveInfo, F4SEInfo)
-- [ ] Implement configuration models
-- [ ] Define problem/issue reporting models
+- [x] Port enums (InstallType, ArchiveVersion, LogType, etc.)
+- [x] Create game info models (ModInfo, ArchiveInfo, F4SEInfo)
+- [x] Implement configuration models
+- [x] Define problem/issue reporting models
 
 ## Phase 2: Core Services & Business Logic
 ### 2.1 Game Detection & Analysis
