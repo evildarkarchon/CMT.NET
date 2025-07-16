@@ -1,5 +1,7 @@
 # CMT.NET Implementation Plan - Python to C# Port
 
+Reference code is available in the `Code To Port/` directory. This document outlines the plan to port the Collective Modding Toolkit (CMT) from Python/Tkinter to C# using the Avalonia MVVM Framework and ReactiveUI, ensuring feature parity while adhering to C# best practices.
+
 ## Overview
 Port the Collective Modding Toolkit from Python/Tkinter to C# with Avalonia MVVM Framework and ReactiveUI, maintaining feature parity while following C# best practices.
 
