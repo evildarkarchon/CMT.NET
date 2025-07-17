@@ -482,7 +482,89 @@ public class ScannerViewModel : ViewModelBase
 
 public class ToolsViewModel : ViewModelBase
 {
-    // TODO: Implement tools functionality
+    private readonly IToolLauncherService _toolLauncherService;
+
+    public ToolsViewModel(IToolLauncherService toolLauncherService)
+    {
+        _toolLauncherService = toolLauncherService;
+
+        LaunchDowngraderCommand = ReactiveCommand.CreateFromTask(LaunchDowngraderAsync);
+        LaunchArchivePatcherCommand = ReactiveCommand.CreateFromTask(LaunchArchivePatcherAsync);
+        LaunchExternalToolCommand = ReactiveCommand.CreateFromTask<string>(LaunchExternalToolAsync);
+        OpenLogsFolderCommand = ReactiveCommand.CreateFromTask(OpenLogsFolderAsync);
+        ClearCacheCommand = ReactiveCommand.CreateFromTask(ClearCacheAsync);
+    }
+
+    public ReactiveCommand<Unit, Unit> LaunchDowngraderCommand { get; }
+    public ReactiveCommand<Unit, Unit> LaunchArchivePatcherCommand { get; }
+    public ReactiveCommand<string, Unit> LaunchExternalToolCommand { get; }
+    public ReactiveCommand<Unit, Unit> OpenLogsFolderCommand { get; }
+    public ReactiveCommand<Unit, Unit> ClearCacheCommand { get; }
+
+    private async Task LaunchDowngraderAsync()
+    {
+        try
+        {
+            await _toolLauncherService.LaunchDowngraderAsync();
+        }
+        catch (Exception ex)
+        {
+            // TODO: Show error message to user
+            System.Diagnostics.Debug.WriteLine($"Error launching downgrader: {ex.Message}");
+        }
+    }
+
+    private async Task LaunchArchivePatcherAsync()
+    {
+        try
+        {
+            await _toolLauncherService.LaunchArchivePatcherAsync();
+        }
+        catch (Exception ex)
+        {
+            // TODO: Show error message to user
+            System.Diagnostics.Debug.WriteLine($"Error launching archive patcher: {ex.Message}");
+        }
+    }
+
+    private async Task LaunchExternalToolAsync(string toolName)
+    {
+        try
+        {
+            await _toolLauncherService.LaunchExternalToolAsync(toolName);
+        }
+        catch (Exception ex)
+        {
+            // TODO: Show error message to user
+            System.Diagnostics.Debug.WriteLine($"Error launching external tool {toolName}: {ex.Message}");
+        }
+    }
+
+    private async Task OpenLogsFolderAsync()
+    {
+        try
+        {
+            await _toolLauncherService.OpenLogsFolderAsync();
+        }
+        catch (Exception ex)
+        {
+            // TODO: Show error message to user
+            System.Diagnostics.Debug.WriteLine($"Error opening logs folder: {ex.Message}");
+        }
+    }
+
+    private async Task ClearCacheAsync()
+    {
+        try
+        {
+            await _toolLauncherService.ClearCacheAsync();
+        }
+        catch (Exception ex)
+        {
+            // TODO: Show error message to user
+            System.Diagnostics.Debug.WriteLine($"Error clearing cache: {ex.Message}");
+        }
+    }
 }
 
 public class SettingsViewModel : ViewModelBase

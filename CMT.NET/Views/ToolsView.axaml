@@ -57,6 +57,7 @@
                         <TextBlock Text="Downgrade your Fallout 4 installation to work with older mods and F4SE plugins." 
                                    TextWrapping="Wrap" Margin="0,0,0,10"/>
                         <Button Content="Launch Downgrader" HorizontalAlignment="Center" 
+                                Command="{Binding LaunchDowngraderCommand}"
                                 ToolTip.Tip="Open the game downgrader tool"/>
                     </StackPanel>
                 </Border>
@@ -68,6 +69,7 @@
                         <TextBlock Text="Convert BA2 archives between different versions for compatibility." 
                                    TextWrapping="Wrap" Margin="0,0,0,10"/>
                         <Button Content="Launch Archive Patcher" HorizontalAlignment="Center"
+                                Command="{Binding LaunchArchivePatcherCommand}"
                                 ToolTip.Tip="Open the archive patcher tool"/>
                     </StackPanel>
                 </Border>
@@ -82,10 +84,16 @@
                         <TextBlock Text="Quick access to commonly used modding tools." 
                                    TextWrapping="Wrap" Margin="0,0,0,10"/>
                         <Button Content="Launch xEdit" HorizontalAlignment="Center" Margin="0,0,0,5"
+                                Command="{Binding LaunchExternalToolCommand}"
+                                CommandParameter="xEdit"
                                 ToolTip.Tip="Open xEdit/FO4Edit"/>
                         <Button Content="Launch BSArch" HorizontalAlignment="Center" Margin="0,0,0,5"
+                                Command="{Binding LaunchExternalToolCommand}"
+                                CommandParameter="BSArch"
                                 ToolTip.Tip="Open BSArch archive manager"/>
                         <Button Content="Launch Complex Sorter" HorizontalAlignment="Center"
+                                Command="{Binding LaunchExternalToolCommand}"
+                                CommandParameter="Complex Sorter"
                                 ToolTip.Tip="Open Complex Sorter"/>
                     </StackPanel>
                 </Border>
@@ -97,8 +105,10 @@
                         <TextBlock Text="Additional utilities for mod management." 
                                    TextWrapping="Wrap" Margin="0,0,0,10"/>
                         <Button Content="Open Logs Folder" HorizontalAlignment="Center" Margin="0,0,0,5"
+                                Command="{Binding OpenLogsFolderCommand}"
                                 ToolTip.Tip="Open the application logs folder"/>
                         <Button Content="Clear Cache" HorizontalAlignment="Center"
+                                Command="{Binding ClearCacheCommand}"
                                 ToolTip.Tip="Clear application cache"/>
                     </StackPanel>
                 </Border>

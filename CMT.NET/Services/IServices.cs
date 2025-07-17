@@ -48,6 +48,17 @@ public interface IGameDetectionService
     Task RefreshGameInfoAsync();
 }
 
+public interface IDowngraderService
+{
+    Task<IEnumerable<GameVersion>> GetAvailableVersionsAsync();
+    Task<bool> HasBackupAsync();
+    Task<string> GetBackupPathAsync();
+    Task CreateBackupAsync(IProgress<DowngradeProgress> progress);
+    Task RestoreFromBackupAsync(IProgress<DowngradeProgress> progress);
+    Task DowngradeToVersionAsync(GameVersion version, IProgress<DowngradeProgress> progress);
+    Task<bool> ValidateGameFileAsync(string filePath);
+}
+
 public interface IFileOperationService
 {
     Task<uint> CalculateCrc32Async(string filePath);
@@ -96,4 +107,12 @@ public interface ICmCheckerService
     Task<GameAnalysisResult> AnalyzeGameInstallationAsync(string? gamePath = null);
     Task<List<Problem>> ScanForProblemsAsync();
     Task<SystemInfo> GetSystemInfoAsync();
+}
+
+public interface IArchivePatcherService
+{
+    Task<IEnumerable<ArchiveInfo>> GetArchivesAsync();
+    Task PatchArchiveAsync(string archivePath, ArchiveVersion targetVersion, IProgress<ArchivePatchProgress> progress);
+    Task<bool> CanPatchArchiveAsync(string archivePath, ArchiveVersion targetVersion);
+    Task<IEnumerable<ArchiveVersion>> GetSupportedVersionsAsync();
 }

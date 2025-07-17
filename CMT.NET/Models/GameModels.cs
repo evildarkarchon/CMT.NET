@@ -19,6 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace CMT.NET.Models;
 
@@ -54,7 +56,7 @@ public class ModInfo
     public List<string> MasterFiles { get; set; } = new();
 }
 
-public class ArchiveInfo
+public class ArchiveInfo : ReactiveObject
 {
     public string FilePath { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
@@ -63,9 +65,12 @@ public class ArchiveInfo
     public DateTime LastWriteTime { get; set; }
     public uint Crc32 { get; set; }
     public int? Version { get; set; }
+    public ArchiveVersion ArchiveVersion { get; set; }
     public int FileCount { get; set; }
     public string? ArchiveType { get; set; }
     public string? Format { get; set; }
+
+    [Reactive] public bool IsSelected { get; set; }
 }
 
 public class F4SeInfo
@@ -83,6 +88,7 @@ public class F4SeInfo
     // UI Helper Properties
     public string VersionColor => IsCompatible ? "Good" : "Bad";
     public string StatusColor => IsCompatible ? "Good" : "Bad";
+    public bool HasDescription => !string.IsNullOrEmpty(Description);
 }
 
 public class Problem
@@ -103,6 +109,10 @@ public class Problem
         ProblemSeverity.Error => "Bad",
         _ => "Info"
     };
+
+    public bool HasSolution => !string.IsNullOrEmpty(Solution);
+    public bool HasFilePath => !string.IsNullOrEmpty(FilePath);
+    public bool HasDetails => !string.IsNullOrEmpty(Details);
 }
 
 public class ProblemGroup
@@ -235,4 +245,35 @@ public class GameInfo
         ArchivesEnabled.Clear();
         ArchivesUnreadable.Clear();
     }
+}
+
+public class GameVersion
+{
+    public string Version { get; set; } = string.Empty;
+    public string DisplayName { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string PatchUrl { get; set; } = string.Empty;
+    public uint ExpectedCrc32 { get; set; }
+    public long FileSize { get; set; }
+    public bool IsOriginal { get; set; }
+    public bool IsNextGen { get; set; }
+    public bool IsDowngrade { get; set; }
+}
+
+public class DowngradeProgress
+{
+    public double Percentage { get; set; }
+    public string Message { get; set; } = string.Empty;
+    public string? CurrentFile { get; set; }
+    public long BytesProcessed { get; set; }
+    public long TotalBytes { get; set; }
+}
+
+public class ArchivePatchProgress
+{
+    public double Percentage { get; set; }
+    public string Message { get; set; } = string.Empty;
+    public string? CurrentArchive { get; set; }
+    public int ArchivesProcessed { get; set; }
+    public int TotalArchives { get; set; }
 }

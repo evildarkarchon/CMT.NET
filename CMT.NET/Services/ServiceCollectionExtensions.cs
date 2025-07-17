@@ -73,6 +73,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IModuleAnalysisService, ModuleAnalysisService>();
         services.AddSingleton<IArchiveAnalysisService, ArchiveAnalysisService>();
         services.AddSingleton<ICmCheckerService, CMCheckerService>();
+        services.AddSingleton<IDowngraderService, DowngraderService>();
+        services.AddSingleton<IArchivePatcherService, ArchivePatcherService>();
+        services.AddSingleton<IToolLauncherService, ToolLauncherService>();
 
         // ViewModels
         services.AddTransient<MainWindowViewModel>();
@@ -82,6 +85,8 @@ public static class ServiceCollectionExtensions
         services.AddTransient<ToolsViewModel>();
         services.AddTransient<SettingsViewModel>();
         services.AddTransient<AboutViewModel>();
+        services.AddTransient<DowngraderViewModel>();
+        services.AddTransient<ArchivePatcherViewModel>();
 
         // HTTP Client
         services.AddHttpClient();
